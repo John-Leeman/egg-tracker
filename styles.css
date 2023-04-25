@@ -1,0 +1,11 @@
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 1px;
+    text-align: center;
+}
+.calendar div {
+    padding: 20px;
+    border: .1em solid #ccc;
+}
