@@ -9,3 +9,16 @@
     padding: 20px;
     border: .1em solid #ccc;
 }
+
+div .candeling {
+    color: red;
+}
+
+div .creation {
+    color: green;
+    width: 4em;
+}
+
+div .titers {
+    color: blue
+}
