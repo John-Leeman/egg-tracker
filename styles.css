@@ -1,13 +1,92 @@
+body {
+    margin: 0;
+    background-color: #F4F6F0;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+header {
+    font-family: 'Cute Font', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    color: #5DC439;
+    font-size: 4em;
+    text-shadow: .03em .03em .03em black;
+}
+
+header img {
+    height: 4em;
+    padding: 1em;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+}
+
+.month {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1em;
+    justify-content: center;
+    align-items: center;
+}
+
+.month button {
+    font-size: 1.5em;
+    color: #5DC439;
+    background-color: #fff;
+    border: .1em solid black;
+    border-radius: 40%;
+    cursor: pointer;
+    height: min-content;
+}
+
+.batchButtons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.batchButtons button {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: black;
+    background-color: #fff;
+    border: .1em solid black;
+    border-radius: 3%;
+    cursor: pointer;
+    padding: .3em .5em;
+    margin: 0 .5em;
+}
+
+
+
+.month span {
+    font-weight: bold;
+    color: black;
+    font-size: 1.3em;
+    padding: 0 .3em;
+}
+
+.calendarDay {
+    background-color: #5DC439;
+}
 
 .calendar {
+    margin: 1em;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-gap: 1px;
+    grid-gap: .3em;
     text-align: center;
 }
 .calendar div {
-    padding: 20px;
-    border: .1em solid #ccc;
+    border: .1em solid black;
+    border-radius: 3%;
+    background-color: white;
 }
 
 div .candeling {
@@ -16,7 +95,6 @@ div .candeling {
 
 div .creation {
     color: green;
-    width: 4em;
 }
 
 div .titers {

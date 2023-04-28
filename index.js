@@ -20,8 +20,6 @@ function getEvents() {
         //insert an element on the appropriate day for each event
         document.getElementById(event.date).innerHTML += `<div class="${event.type}">${event.batchId}<br>${event.type}</div`
     }
-    // iterate through the events
-        // create a new element for each even on the day they should occur
 }
 
 function drawCalendar(date) {
@@ -36,6 +34,7 @@ function drawCalendar(date) {
     days.forEach(day => {
         const dayName = document.createElement('div');
         dayName.textContent = day;
+        dayName.className = "calendarDay"
         calendar.appendChild(dayName);
     });
 
@@ -59,11 +58,11 @@ function drawCalendar(date) {
         calendar.appendChild(day);
     }
 
-    // populate batch events
-    getEvents()
-
     // update top month name
     currentMonthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
+
+    // populate batch events
+    getEvents()
 }
 
 prevMonthBtn.addEventListener('click', () => {
