@@ -1,6 +1,12 @@
 export const batches = [
     {id: "2023-4-1",
-    quantity: 500}
+    quantity: 500},
+
+    {id: "2023-4-14",
+    quantity: 700},
+
+    {id: "2023-5-10",
+    quantity: 600}
 ]
 
 export const events = [

@@ -1,5 +1,4 @@
-import { events } from './data.js'
-import { batches } from './data.js'
+import { batches } from '/data.js'
 
 const calendar = document.getElementById('calendar');
 const prevMonthBtn = document.getElementById('prevMonth');
@@ -13,18 +12,15 @@ function newBatch() {
     // when submitted send the batch to DB as JSON
 }
 
-
-function getEvents() {
-    // retrieve this months events from the DB for now just look at local data
-    for (const event of events) {
-        //insert an element on the appropriate day for each event
-        document.getElementById(event.date).innerHTML += `<div class="${event.type}">${event.batchId}<br>${event.type}</div`
-    }
-}
-
 function drawCalendar(date) {
     const month = date.getMonth();
     const year = date.getFullYear();
+    const monthString = date.toLocaleDateString("en-US", {
+        month: "2-digit",
+    })
+    const yearString = date.toLocaleDateString("en-US", {
+        year: "numeric",
+    })
 
     // Clear the calendar
     calendar.innerHTML = '';
@@ -54,15 +50,27 @@ function drawCalendar(date) {
     for (let i = 1; i <= daysInMonth; i++) {
         const day = document.createElement('div');
         day.textContent = i;
-        day.id = `${year}-${month + 1}-${i}`
+        if (i < 10){
+            day.id = `${yearString}-${monthString}-0${i}`
+        } else {
+            day.id = `${yearString}-${monthString}-${i}`
+        }
         calendar.appendChild(day);
     }
 
     // update top month name
     currentMonthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
-    // populate batch events
-    getEvents()
+    // populate current batches
+    let activeBatches = []
+    //retrieve active batches from the database for now get them from data.js
+    for (let i = 0; i < batches.length; i++) {
+        if (batches[i].id.slice(0, 6) === `${yearString}-${monthString}`) {
+            activeBatches.push(batches[i])
+        }
+    }
+
+    console.log(activeBatches)
 }
 
 prevMonthBtn.addEventListener('click', () => {
