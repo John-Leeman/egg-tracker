@@ -45,13 +45,13 @@ footer {
     height: min-content;
 }
 
-.batchButtons{
+.modalButtons{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.batchButtons button {
+.modalButtons button {
     font-size: 1.25em;
     font-weight: bold;
     color: black;
@@ -120,15 +120,21 @@ div .titers {
     width: 80%;
 }
 
-.close {
+.modal-content h1 {
+    display: flex;
+    justify-content: center;
+    margin-left: 28px;
+}
+
+.closeNewBacth {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.closeNewBacth:hover,
+.closeNewBacth:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;

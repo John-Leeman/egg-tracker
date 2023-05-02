@@ -30,16 +30,16 @@
         
         <div class="calendar" id="calendar"></div>
         
-        <div class="batchButtons">
+        <div class="modalButtons">
             <button id="newBatchBtn">New Batch</button>
-            <button id="editBatchBtn">Edit Batch</button>
+            <button id="newEventBtn">New Event</button>
         </div>
         
     </main>
 
     <div id="newBatchModal" class="modal">
         <div class="modal-content">
-            <span class="closeNewBacth">&times;</span>
+            <div class="closeNewBacth">&times;</div>
             <h1>Add New Batch</h1>
             <form>
                 <label for="date">Starting Date:</label>
@@ -52,6 +52,10 @@
 
                 <label for="brokenEggs">Broken Eggs:</label>
                 <input type="number" id="brokenEggs" name="brokenEggs" min="0" required>
+                <br><br>
+
+                <label for="strain">Strain:</label>
+                <input type="strain" id="strain" name="strain">
                 <br><br>
 
                 <label for="vendor">Vendor:</label>
