@@ -1,16 +1,50 @@
-import { batches } from '/data.js'
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+        
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyCyH88GFsWEXDTkb7cIS5kULAXL__jWfgQ",
+    authDomain: "hygieia-egg-tracker.firebaseapp.com",
+    projectId: "hygieia-egg-tracker",
+    storageBucket: "hygieia-egg-tracker.appspot.com",
+    messagingSenderId: "384419643501",
+    appId: "1:384419643501:web:cc6469a1d685e86d233f64",
+    measurementId: "G-453L9854ET"
+};
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app)
+
+// Bring in batches from firebase
+const batches = ref(database, "batches")
+
+// Calendar Elements
 const calendar = document.getElementById('calendar');
 const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
 const currentMonthYear = document.getElementById('currentMonthYear');
 
+// New Batch modal Elements
+const newBatchModal = document.getElementById("newBatchModal");
+const newBatchBtn = document.getElementById("newBatchBtn");
+const closeNewBacth = document.getElementsByClassName("closeNewBacth")[0];
+
 let currentDate = new Date();
 
-function newBatch() {
-    // open a modal form to create a new batch
-    // when submitted send the batch to DB as JSON
-}
+// Open the modal when the button is clicked
+newBatchBtn.onclick = function () {
+    newBatchModal.style.display = "block";
+};
+
+// Close the modal when the 'x' is clicked
+closeNewBacth.onclick = function () {
+    newBatchModal.style.display = "none";
+};
+
+// when submitted send the batch to DB as JSON
+
 
 function drawCalendar(date) {
     const month = date.getMonth();
@@ -62,15 +96,8 @@ function drawCalendar(date) {
     currentMonthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
     // populate current batches
-    let activeBatches = []
     //retrieve active batches from the database for now get them from data.js
-    for (let i = 0; i < batches.length; i++) {
-        if (batches[i].id.slice(0, 6) === `${yearString}-${monthString}`) {
-            activeBatches.push(batches[i])
-        }
-    }
 
-    console.log(activeBatches)
 }
 
 prevMonthBtn.addEventListener('click', () => {

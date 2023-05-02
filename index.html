@@ -11,29 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <script type="module" src="index.js" defer></script>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-          apiKey: "AIzaSyCyH88GFsWEXDTkb7cIS5kULAXL__jWfgQ",
-          authDomain: "hygieia-egg-tracker.firebaseapp.com",
-          projectId: "hygieia-egg-tracker",
-          storageBucket: "hygieia-egg-tracker.appspot.com",
-          messagingSenderId: "384419643501",
-          appId: "1:384419643501:web:cc6469a1d685e86d233f64",
-          measurementId: "G-453L9854ET"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-    </script>
 </head>
 <body>
     <header>
@@ -54,11 +31,41 @@
         <div class="calendar" id="calendar"></div>
         
         <div class="batchButtons">
-            <button id="newBatch">New Batch</button>
-            <button id="editBatch">Edit Batch</button>
+            <button id="newBatchBtn">New Batch</button>
+            <button id="editBatchBtn">Edit Batch</button>
         </div>
         
     </main>
+
+    <div id="newBatchModal" class="modal">
+        <div class="modal-content">
+            <span class="closeNewBacth">&times;</span>
+            <h1>Add New Batch</h1>
+            <form>
+                <label for="date">Starting Date:</label>
+                <input type="date" id="date" name="date" pattern="\d{4}/\d{2}/\d{2}" required>
+                <br><br>
+
+                <label for="startingEggs">Starting Eggs:</label>
+                <input type="number" id="startingEggs" name="startingEggs" min="0" required>
+                <br><br>
+
+                <label for="brokenEggs">Broken Eggs:</label>
+                <input type="number" id="brokenEggs" name="brokenEggs" min="0" required>
+                <br><br>
+
+                <label for="vendor">Vendor:</label>
+                <input type="text" id="vendor" name="vendor" required>
+                <br><br>
+
+                <label for="isLate">Was it Late?:</label>
+                <input type="checkbox" id="isLate" name="isLate">
+                <br><br>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <p>&copy; 2023 John Leeman All rights reserved.</p>
