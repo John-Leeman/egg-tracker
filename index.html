@@ -41,9 +41,9 @@
         <div class="modal-content">
             <div class="closeNewBacth">&times;</div>
             <h1>Add New Batch</h1>
-            <form>
-                <label for="date">Starting Date:</label>
-                <input type="date" id="date" name="date" pattern="\d{4}/\d{2}/\d{2}" required>
+            <form id="newBatchForm">
+                <label for="startingDate">Starting Date:</label>
+                <input type="date" id="startingDate" name="date" pattern="\d{4}/\d{2}/\d{2}" required>
                 <br><br>
 
                 <label for="startingEggs">Starting Eggs:</label>
@@ -66,7 +66,7 @@
                 <input type="checkbox" id="isLate" name="isLate">
                 <br><br>
 
-                <button type="submit">Submit</button>
+                <button type="submit" id="submitNewBatch">Submit</button>
             </form>
         </div>
     </div>

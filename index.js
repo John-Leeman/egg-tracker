@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
 
 // Bring in batches from firebase
-const batches = ref(database, "batches")
+const batchesInDB = ref(database, "batches")
 
 // Calendar Elements
 const calendar = document.getElementById('calendar');
@@ -31,6 +31,17 @@ const newBatchModal = document.getElementById("newBatchModal");
 const newBatchBtn = document.getElementById("newBatchBtn");
 const closeNewBacth = document.getElementsByClassName("closeNewBacth")[0];
 
+// New batch form elements
+const newBatchForm = document.getElementById('newBatchForm')
+const startingDate = document.getElementById('startingDate')
+const startingEggs = document.getElementById('startingEggs')
+const brokenEggs = document.getElementById('brokenEggs')
+const strain = document.getElementById('strain')
+const vendor = document.getElementById('vendor')
+const isLate = document.getElementById('isLate')
+const submitNewBatch = document.getElementById('submitNewBatch')
+
+// Get current date
 let currentDate = new Date();
 
 // Open the modal when the button is clicked
@@ -99,6 +110,21 @@ function drawCalendar(date) {
     //retrieve active batches from the database for now get them from data.js
 
 }
+
+submitNewBatch.addEventListener('click', (e) => {
+    e.preventDefault();
+    database.collection('batches').doc().set({
+        startingDate: startingDate.value,
+        startingEggs: startingEggs.value,
+        brokenEggs: brokenEggs.value,
+        strain: strain.value,
+        vendor: vendor.value,
+        isLate: isLate.value
+    }).then(() => {
+        newBatchForm.reset();
+        newBatchModal.style.display = "none";
+    })
+});
 
 prevMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
