@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-import { getDatabase, ref, set, update, remove } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
         
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -15,13 +15,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app)
+const database = getDatabase(app);
+const batchesInDB = ref(database, "Batches");
 
 // Calendar Elements
 const calendar = document.getElementById('calendar');
 const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
 const currentMonthYear = document.getElementById('currentMonthYear');
+
+// active batch elements
+const activeBatches = document.getElementById('activeBatches');
 
 // New Batch modal Elements
 const newBatchModal = document.getElementById("newBatchModal");
@@ -40,19 +44,6 @@ const submitNewBatch = document.getElementById('submitNewBatch')
 
 // Get current date
 let currentDate = new Date();
-
-// Open the modal when the button is clicked
-newBatchBtn.onclick = function () {
-    newBatchModal.style.display = "block";
-};
-
-// Close the modal when the 'x' is clicked
-closeNewBacth.onclick = function () {
-    newBatchModal.style.display = "none";
-};
-
-// when submitted send the batch to DB as JSON
-
 
 function drawCalendar(date) {
     const month = date.getMonth();
@@ -103,11 +94,35 @@ function drawCalendar(date) {
     // update top month name
     currentMonthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
-    // populate current batches
-    //retrieve active batches from the database for now get them from data.js
-
+    // populate events from DB
+    
 }
 
+// get bacthes from DB into an array and render active batches
+function getActiveBatches() {
+    
+    // clear active batches
+    activeBatches.innerHTML = ``
+
+    // get snapshot of batches + values in DB
+    onValue(batchesInDB, function(snapshot) {
+        let batchesArray = Object.values(snapshot.val())
+        
+        //render active batches
+        for(const batch of batchesArray){
+            if (batch.isActive === true){
+            activeBatches.innerHTML += `
+                <div class="active-batch" id="batch-${batch.startingDate}">
+                <img src="assets/yoshi-egg-mirror.png">
+                <h3>${batch.startingDate}</h3>
+                <img src="assets/yoshi-egg.png">
+                </div>`
+            }
+        }
+    })
+}
+
+// Submit new batch to the DB
 submitNewBatch.addEventListener('click', (e) => {
     e.preventDefault();
     set(ref(database, "Batches/" + startingDate.value),{
@@ -116,12 +131,24 @@ submitNewBatch.addEventListener('click', (e) => {
         brokenEggs: brokenEggs.value,
         strain: strain.value,
         vendor: vendor.value,
-        isLate: isLate.value
+        isLate: isLate.value,
+        isActive: true
     }).then(() => {
         newBatchForm.reset();
         newBatchModal.style.display = "none";
+        getActiveBatches();
     })
 });
+
+// Open the modal when the button is clicked
+newBatchBtn.onclick = function () {
+    newBatchModal.style.display = "block";
+};
+
+// Close the modal when the 'x' is clicked
+closeNewBacth.onclick = function () {
+    newBatchModal.style.display = "none";
+};
 
 prevMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
@@ -134,3 +161,4 @@ nextMonthBtn.addEventListener('click', () => {
 });
 
 drawCalendar(currentDate);
+getActiveBatches();

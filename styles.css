@@ -45,13 +45,14 @@ footer {
     height: min-content;
 }
 
-.modalButtons{
+.newButtons{
+    margin-top: .8em;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.modalButtons button {
+.newButtons button {
     font-size: 1.25em;
     font-weight: bold;
     color: black;
@@ -97,6 +98,29 @@ div .creation {
 
 div .titers {
     color: blue
+}
+
+.active-batches {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.active-batch {
+    border: .1em solid black;
+    border-radius: 3%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2em;
+    margin: .3em;
+    width: fit-content;
+}
+
+.active-batch img {
+    height: 1.5em;
+    padding: .2em;
 }
 
 /* Modal styles */
