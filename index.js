@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+import { getDatabase, ref, set, update, remove } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
         
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -16,9 +16,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
-
-// Bring in batches from firebase
-const batchesInDB = ref(database, "batches")
 
 // Calendar Elements
 const calendar = document.getElementById('calendar');
@@ -113,7 +110,7 @@ function drawCalendar(date) {
 
 submitNewBatch.addEventListener('click', (e) => {
     e.preventDefault();
-    database.collection('batches').doc().set({
+    set(ref(database, "Batches/" + startingDate.value),{
         startingDate: startingDate.value,
         startingEggs: startingEggs.value,
         brokenEggs: brokenEggs.value,
