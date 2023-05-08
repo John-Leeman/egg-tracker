@@ -24,7 +24,7 @@ const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
 const currentMonthYear = document.getElementById('currentMonthYear');
 
-// active batch elements
+// active batch element
 const activeBatches = document.getElementById('activeBatches');
 
 // New Batch modal Elements
@@ -140,7 +140,10 @@ submitNewBatch.addEventListener('click', (e) => {
     })
 });
 
-// Open the modal when the button is clicked
+// Open edit batch modal with current data of clicked active batch
+
+
+// Open new bacth modal when the button is clicked
 newBatchBtn.onclick = function () {
     newBatchModal.style.display = "block";
 };
