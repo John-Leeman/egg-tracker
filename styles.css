@@ -116,6 +116,8 @@ div .titers {
     height: 2em;
     margin: .3em;
     width: fit-content;
+    font-size: .66em;
+    cursor: pointer;
 }
 
 .active-batch img {
