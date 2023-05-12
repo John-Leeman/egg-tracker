@@ -27,10 +27,15 @@ const currentMonthYear = document.getElementById('currentMonthYear');
 // active batch element
 const activeBatches = document.getElementById('activeBatches');
 
+// Edit Batch modal elements
+const editBatchModal = document.getElementById('editBatchModal');
+const editBatchBtn = document.getElementById("editBatchBtn");
+const closeEditBatch = document.getElementsByClassName("closeEditBatch")[0];
+
 // New Batch modal Elements
 const newBatchModal = document.getElementById("newBatchModal");
 const newBatchBtn = document.getElementById("newBatchBtn");
-const closeNewBacth = document.getElementsByClassName("closeNewBacth")[0];
+const closeNewBatch = document.getElementsByClassName("closeNewBatch")[0];
 
 // New batch form elements
 const newBatchForm = document.getElementById('newBatchForm')
@@ -119,6 +124,49 @@ function getActiveBatches() {
                 </div>`
             }
         }
+
+        // Now that the active-batch elements have been created, add click event listeners
+        const activeBatchElements = document.getElementsByClassName('active-batch');
+        for (let i = 0; i < activeBatchElements.length; i++) {
+            activeBatchElements[i].addEventListener('click', function() {
+                //bring up the modal
+                editBatchModal.style.display = "block";
+                //pull in the batch data from the database for the clicked batch and fill the form
+                editBatchModal.innerHTML = `
+                <div class="modal-content">
+                    <div class="closeEditBatch">&times;</div>
+                    <h1>Edit Batch</h1>
+                    <form id="editBatchForm">
+                        <label for="editStartingDate">Starting Date:</label>
+                        <input type="date" id="editStartingDate" name="editStartingDate" pattern="\d{4}/\d{2}/\d{2}" required>
+                        <br><br>
+        
+                        <label for="editStartingEggs">Starting Eggs:</label>
+                        <input type="number" id="editStartingEggs" name="editStartingEggs" min="0" required>
+                        <br><br>
+        
+                        <label for="editBrokenEggs">Broken Eggs:</label>
+                        <input type="number" id="editBrokenEggs" name="editBrokenEggs" min="0" required>
+                        <br><br>
+        
+                        <label for="editStrain">Strain:</label>
+                        <input type="editStrain" id="editStrain" name="editStrain">
+                        <br><br>
+        
+                        <label for="editVendor">Vendor:</label>
+                        <input type="text" id="editVendor" name="editVendor" required>
+                        <br><br>
+        
+                        <label for="editIsLate">Was it Late?:</label>
+                        <input type="checkbox" id="editIsLate" name="editIsLate">
+                        <br><br>
+        
+                        <button type="submit" id="submitEditBatch">Submit</button>
+                    </form>
+                </div>`
+                //update data in the database on sumbit, clear the form and hide the modal
+            });
+        }
     })
 }
 
@@ -140,18 +188,19 @@ submitNewBatch.addEventListener('click', (e) => {
     })
 });
 
-// Open edit batch modal with current data of clicked active batch
-
-
 // Open new bacth modal when the button is clicked
 newBatchBtn.onclick = function () {
     newBatchModal.style.display = "block";
 };
 
-// Close the modal when the 'x' is clicked
-closeNewBacth.onclick = function () {
+// Close the modals when the 'x' is clicked
+closeNewBatch.onclick = function () {
     newBatchModal.style.display = "none";
 };
+closeEditBatch.onclick = function () {
+    editBatchModal.style.display = "none";
+};
+
 
 prevMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
