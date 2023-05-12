@@ -103,7 +103,7 @@ function drawCalendar(date) {
     
 }
 
-// get bacthes from DB into an array and render active batches
+// get batches from DB into an array and render active batches
 function getActiveBatches() {
     
     // clear active batches
@@ -112,11 +112,13 @@ function getActiveBatches() {
     // get snapshot of batches + values in DB
     onValue(batchesInDB, function(snapshot) {
         let batchesArray = Object.values(snapshot.val())
-        
+
+        let activeBatchesHTML = ``
+
         //render active batches
         for(const batch of batchesArray){
             if (batch.isActive === true){
-            activeBatches.innerHTML += `
+            activeBatchesHTML += `
                 <div class="active-batch" id="batch-${batch.startingDate}">
                 <img src="assets/yoshi-egg-mirror.png">
                 <h3>${batch.startingDate}</h3>
@@ -124,6 +126,8 @@ function getActiveBatches() {
                 </div>`
             }
         }
+
+        activeBatches.innerHTML = activeBatchesHTML
 
         // Now that the active-batch elements have been created, add click event listeners
         const activeBatchElements = document.getElementsByClassName('active-batch');
@@ -188,7 +192,7 @@ submitNewBatch.addEventListener('click', (e) => {
     })
 });
 
-// Open new bacth modal when the button is clicked
+// Open new batch modal when the button is clicked
 newBatchBtn.onclick = function () {
     newBatchModal.style.display = "block";
 };
