@@ -29,7 +29,7 @@ const activeBatches = document.getElementById('activeBatches');
 
 // Edit Batch modal elements
 const editBatchModal = document.getElementById('editBatchModal');
-const editBatchBtn = document.getElementById("editBatchBtn");
+const submitEditBatch = document.getElementById('submitEditBatch');
 const closeEditBatch = document.getElementsByClassName("closeEditBatch")[0];
 
 // New Batch modal Elements
@@ -136,38 +136,7 @@ function getActiveBatches() {
                 //bring up the modal
                 editBatchModal.style.display = "block";
                 //pull in the batch data from the database for the clicked batch and fill the form
-                editBatchModal.innerHTML = `
-                <div class="modal-content">
-                    <div class="closeEditBatch">&times;</div>
-                    <h1>Edit Batch</h1>
-                    <form id="editBatchForm">
-                        <label for="editStartingDate">Starting Date:</label>
-                        <input type="date" id="editStartingDate" name="editStartingDate" pattern="\d{4}/\d{2}/\d{2}" required>
-                        <br><br>
-        
-                        <label for="editStartingEggs">Starting Eggs:</label>
-                        <input type="number" id="editStartingEggs" name="editStartingEggs" min="0" required>
-                        <br><br>
-        
-                        <label for="editBrokenEggs">Broken Eggs:</label>
-                        <input type="number" id="editBrokenEggs" name="editBrokenEggs" min="0" required>
-                        <br><br>
-        
-                        <label for="editStrain">Strain:</label>
-                        <input type="editStrain" id="editStrain" name="editStrain">
-                        <br><br>
-        
-                        <label for="editVendor">Vendor:</label>
-                        <input type="text" id="editVendor" name="editVendor" required>
-                        <br><br>
-        
-                        <label for="editIsLate">Was it Late?:</label>
-                        <input type="checkbox" id="editIsLate" name="editIsLate">
-                        <br><br>
-        
-                        <button type="submit" id="submitEditBatch">Submit</button>
-                    </form>
-                </div>`
+                
                 //update data in the database on sumbit, clear the form and hide the modal
             });
         }
@@ -201,10 +170,10 @@ newBatchBtn.onclick = function () {
 closeNewBatch.onclick = function () {
     newBatchModal.style.display = "none";
 };
+
 closeEditBatch.onclick = function () {
     editBatchModal.style.display = "none";
 };
-
 
 prevMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);

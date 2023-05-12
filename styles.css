@@ -152,7 +152,8 @@ div .titers {
     margin-left: 28px;
 }
 
-.closeNewBatch .closeEditBatch {
+.closeNewBatch, 
+.closeEditBatch {
     color: #aaa;
     float: right;
     font-size: 28px;
