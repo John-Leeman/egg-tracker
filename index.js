@@ -113,9 +113,10 @@ function getActiveBatches() {
     onValue(batchesInDB, function(snapshot) {
         let batchesArray = Object.values(snapshot.val())
 
+        //render active batches
+
         let activeBatchesHTML = ``
 
-        //render active batches
         for(const batch of batchesArray){
             if (batch.isActive === true){
             activeBatchesHTML += `
@@ -132,11 +133,15 @@ function getActiveBatches() {
         // Now that the active-batch elements have been created, add click event listeners
         const activeBatchElements = document.getElementsByClassName('active-batch');
         for (let i = 0; i < activeBatchElements.length; i++) {
-            activeBatchElements[i].addEventListener('click', function() {
+            activeBatchElements[i].addEventListener('click', function(e) {
                 //bring up the modal
                 editBatchModal.style.display = "block";
                 //pull in the batch data from the database for the clicked batch and fill the form
-                
+                const clickedBatchInDB = ref(database, `/Batches/${e.target.innerText}`);
+                onValue(clickedBatchInDB, function(snapshot) {
+                    const clickedBatch = snapshot.val()
+                    //fill the form with .values from clickedBatch
+                })
                 //update data in the database on sumbit, clear the form and hide the modal
             });
         }
