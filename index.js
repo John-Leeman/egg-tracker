@@ -153,7 +153,7 @@ function getActiveBatches() {
                     editBrokenEggs.value = clickedBatch.brokenEggs
                     editStrain.value = clickedBatch.strain
                     editVendor.value = clickedBatch.vendor
-                    editIsLate.value = clickedBatch.isLate
+                    editIsLate.checked = clickedBatch.isLate
                 })
             });
         }
@@ -169,7 +169,7 @@ submitNewBatch.addEventListener('click', (e) => {
         brokenEggs: brokenEggs.value,
         strain: strain.value,
         vendor: vendor.value,
-        isLate: isLate.value,
+        isLate: isLate.checked,
         isActive: true
     }).then(() => {
         newBatchForm.reset();
@@ -187,7 +187,7 @@ submitEditBatch.addEventListener('click', (e) => {
         brokenEggs: editBrokenEggs.value,
         strain: editStrain.value,
         vendor: editVendor.value,
-        isLate: editIsLate.value,
+        isLate: editIsLate.checked,
         isActive: true
     }).then(() => {
         editBatchForm.reset();
