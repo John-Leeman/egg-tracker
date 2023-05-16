@@ -30,7 +30,14 @@ const activeBatches = document.getElementById('activeBatches');
 // Edit Batch modal elements
 const editBatchModal = document.getElementById('editBatchModal');
 const submitEditBatch = document.getElementById('submitEditBatch');
+const editBatchForm = document.getElementById('editBatchForm')
 const closeEditBatch = document.getElementsByClassName("closeEditBatch")[0];
+const editStartingDate = document.getElementById('editStartingDate')
+const editStartingEggs = document.getElementById('editStartingEggs')
+const editBrokenEggs = document.getElementById('editBrokenEggs')
+const editStrain = document.getElementById('editStrain')
+const editVendor = document.getElementById('editVendor')
+const editIsLate = document.getElementById('editIsLate')
 
 // New Batch modal Elements
 const newBatchModal = document.getElementById("newBatchModal");
@@ -136,13 +143,18 @@ function getActiveBatches() {
             activeBatchElements[i].addEventListener('click', function(e) {
                 //bring up the modal
                 editBatchModal.style.display = "block";
-                //pull in the batch data from the database for the clicked batch and fill the form
+                //pull in the batch data from the database for the clicked batch
                 const clickedBatchInDB = ref(database, `/Batches/${e.target.innerText}`);
                 onValue(clickedBatchInDB, function(snapshot) {
                     const clickedBatch = snapshot.val()
-                    //fill the form with .values from clickedBatch
+                    //fill the form with values from clickedBatch
+                    editStartingDate.value = clickedBatch.startingDate
+                    editStartingEggs.value = clickedBatch.startingEggs
+                    editBrokenEggs.value = clickedBatch.brokenEggs
+                    editStrain.value = clickedBatch.strain
+                    editVendor.value = clickedBatch.vendor
+                    editIsLate.value = clickedBatch.isLate
                 })
-                //update data in the database on sumbit, clear the form and hide the modal
             });
         }
     })
@@ -162,6 +174,24 @@ submitNewBatch.addEventListener('click', (e) => {
     }).then(() => {
         newBatchForm.reset();
         newBatchModal.style.display = "none";
+        getActiveBatches();
+    })
+});
+
+//update data in the database on editModal submit, clear the form and hide the modal
+submitEditBatch.addEventListener('click', (e) => {
+    e.preventDefault();
+    update(ref(database, "Batches/" + editStartingDate.value),{
+        startingDate: editStartingDate.value,
+        startingEggs: editStartingEggs.value,
+        brokenEggs: editBrokenEggs.value,
+        strain: editStrain.value,
+        vendor: editVendor.value,
+        isLate: editIsLate.value,
+        isActive: true
+    }).then(() => {
+        editBatchForm.reset();
+        editBatchModal.style.display = "none";
         getActiveBatches();
     })
 });
