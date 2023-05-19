@@ -58,6 +58,7 @@ const submitNewBatch = document.getElementById('submitNewBatch')
 let currentDate = new Date();
 
 function drawCalendar(date) {
+    const day = date.getDay();
     const month = date.getMonth();
     const year = date.getFullYear();
     const monthString = date.toLocaleDateString("en-US", {
@@ -105,6 +106,10 @@ function drawCalendar(date) {
 
     // update top month name
     currentMonthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
+
+    // highlight current date
+    let formattedDate = `${year}-${(1 + month).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    document.getElementById(formattedDate).classList.add("current-date");
 
     // populate events from DB
     
