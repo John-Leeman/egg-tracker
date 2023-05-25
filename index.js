@@ -54,6 +54,14 @@ const vendor = document.getElementById('vendor')
 const isLate = document.getElementById('isLate')
 const submitNewBatch = document.getElementById('submitNewBatch')
 
+//New event modal elements
+const newEventBtn = document.getElementById('newEventBtn');
+const newEventModal = document.getElementById('newEventModal');
+const submitNewEvent = document.getElementById('submitNewEvent');
+const newEventForm = document.getElementById('newEventForm')
+const closeNewEvent = document.getElementsByClassName("closeNewEvent")[0];
+const newEventDropdown = document.getElementById('newEventDropdown')
+
 // Get current date
 let currentDate = new Date();
 
@@ -125,8 +133,16 @@ function getActiveBatches() {
     onValue(batchesInDB, function(snapshot) {
         let batchesArray = Object.values(snapshot.val())
 
-        //render active batches
+        //insert active batches into new event modal dropdown
+        console.log(batchesArray)
+        for(let i = 0; i < batchesArray.length; i ++) {
+            let batchOption = document.createElement("option");
+            batchOption.textContent = batchesArray[i].startingDate;
+            batchOption.value = batchesArray[i].startingDate;
+            newEventDropdown.appendChild(batchOption);
+        }
 
+        //render active batches
         let activeBatchesHTML = ``
 
         for(const batch of batchesArray){
@@ -201,12 +217,16 @@ submitEditBatch.addEventListener('click', (e) => {
     })
 });
 
-// Open new batch modal when the button is clicked
+// Open modals when the button is clicked
 newBatchBtn.onclick = function () {
     newBatchModal.style.display = "block";
 };
 
-// Close the modals when the 'x' is clicked
+newEventBtn.onclick = function () {
+    newEventModal.style.display = "block"
+}
+
+// Close modals when the 'x' is clicked
 closeNewBatch.onclick = function () {
     newBatchModal.style.display = "none";
 };
@@ -214,6 +234,10 @@ closeNewBatch.onclick = function () {
 closeEditBatch.onclick = function () {
     editBatchModal.style.display = "none";
 };
+
+closeNewEvent.onclick = function () {
+    newEventModal.style.display = "none"
+}
 
 prevMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);

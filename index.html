@@ -104,6 +104,27 @@
         </div>
     </div>
 
+    <div id="newEventModal" class="modal">
+        <div class="modal-content">
+            <div class="closeNewEvent">&times;</div>
+            <h1>New Event</h1>
+            <form id="newEventForm">
+                <label for="newEventDate">Event Date:</label>
+                <input type="date" id="newEventDate" name="newEventDate" pattern="\d{4}/\d{2}/\d{2}" required>
+                <br><br>
+
+                <label for="newEventDropdown">Select a Batch:</label>
+                <br>
+                <select id="newEventDropdown" name="newEventDropdown">
+                    <!-- Options will be added here using JavaScript -->
+                </select>
+                <br><br>
+
+                <button type="submit" id="submitNewEvent">Submit</button>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2023 John Leeman All rights reserved.</p>
     </footer>
