@@ -113,11 +113,23 @@
                 <input type="date" id="newEventDate" name="newEventDate" pattern="\d{4}/\d{2}/\d{2}" required>
                 <br><br>
 
+                <label for="newEventType">Event Type:</label>
+                <select id="newEventType" name="newEventType">
+                    <option value="titer">Titer</option>
+                    <option value="inoculation">Inoculation</option>
+                    <option value="harvest">Harvest</option>
+                    <option value="misc">Misc</option>
+                </select>
+                <br><br>
+
                 <label for="newEventDropdown">Select a Batch:</label>
-                <br>
                 <select id="newEventDropdown" name="newEventDropdown">
                     <!-- Options will be added here using JavaScript -->
                 </select>
+                <br><br>
+
+                <label for="newEventNotes">Notes:</label>
+                <input type="text" id="newEventNotes" name="newEventNotes">
                 <br><br>
 
                 <button type="submit" id="submitNewEvent">Submit</button>
