@@ -33,7 +33,7 @@ const submitEditBatch = document.getElementById('submitEditBatch');
 const editBatchForm = document.getElementById('editBatchForm')
 const closeEditBatch = document.getElementsByClassName("closeEditBatch")[0];
 const editStartingDate = document.getElementById('editStartingDate')
-const editStartingEggs = document.getElementById('editStartingEggs')
+const editCurrentEggs = document.getElementById('editCurrentEggs')
 const editBrokenEggs = document.getElementById('editBrokenEggs')
 const editStrain = document.getElementById('editStrain')
 const editVendor = document.getElementById('editVendor')
@@ -170,7 +170,7 @@ function getActiveBatches() {
                     const clickedBatch = snapshot.val()
                     //fill the form with values from clickedBatch
                     editStartingDate.value = clickedBatch.startingDate
-                    editStartingEggs.value = clickedBatch.startingEggs
+                    editCurrentEggs.value = clickedBatch.currentEggs
                     editBrokenEggs.value = clickedBatch.brokenEggs
                     editStrain.value = clickedBatch.strain
                     editVendor.value = clickedBatch.vendor
@@ -186,7 +186,7 @@ submitNewBatch.addEventListener('click', (e) => {
     e.preventDefault();
     set(ref(database, "Batches/" + startingDate.value),{
         startingDate: startingDate.value,
-        startingEggs: startingEggs.value,
+        currentEggs: startingEggs.value,
         brokenEggs: brokenEggs.value,
         strain: strain.value,
         vendor: vendor.value,
@@ -204,7 +204,7 @@ submitEditBatch.addEventListener('click', (e) => {
     e.preventDefault();
     update(ref(database, "Batches/" + editStartingDate.value),{
         startingDate: editStartingDate.value,
-        startingEggs: editStartingEggs.value,
+        currentEggs: editCurrentEggs.value,
         brokenEggs: editBrokenEggs.value,
         strain: editStrain.value,
         vendor: editVendor.value,
