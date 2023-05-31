@@ -58,9 +58,14 @@ const submitNewBatch = document.getElementById('submitNewBatch')
 const newEventBtn = document.getElementById('newEventBtn');
 const newEventModal = document.getElementById('newEventModal');
 const submitNewEvent = document.getElementById('submitNewEvent');
-const newEventForm = document.getElementById('newEventForm')
 const closeNewEvent = document.getElementsByClassName("closeNewEvent")[0];
 const newEventDropdown = document.getElementById('newEventDropdown')
+const newEventForm = document.getElementById('newEventForm');
+const newEventDate = document.getElementById('newEventDate');
+const newEventType = document.getElementById('newEventType');
+const newEventPox = document.getElementById('pox');
+const newEventAe = document.getElementById('ae');
+const newEventNotes = document.getElementById('newEventNotes')
 
 // Get current date
 let currentDate = new Date();
@@ -198,6 +203,22 @@ submitNewBatch.addEventListener('click', (e) => {
         getActiveBatches();
     })
 });
+
+//submit new event to the DB
+submitNewEvent.addEventListener('click', (e) => {
+    e.preventDefault();
+    update(ref(database, "Batches/" + newEventDropdown.value + "/events/" + newEventDate.value),{
+        eventDate: newEventDate.value,
+        eventType: newEventType.value,
+        pox: newEventPox.checked,
+        ae: newEventAe.checked,
+        notes: newEventNotes
+    }).then(() => {
+        newEventForm.reset();
+        newEventModal.style.display = "none";
+        getActiveEvents();
+    })
+})
 
 //update data in the database on editModal submit, clear the form and hide the modal
 submitEditBatch.addEventListener('click', (e) => {
