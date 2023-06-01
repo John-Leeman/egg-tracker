@@ -66,6 +66,7 @@ const newEventType = document.getElementById('newEventType');
 const newEventPox = document.getElementById('pox');
 const newEventAe = document.getElementById('ae');
 const newEventNotes = document.getElementById('newEventNotes')
+const newEventEggs = document.getElementById('newEventEggs')
 
 // Get current date
 let currentDate = new Date();
@@ -212,7 +213,8 @@ submitNewEvent.addEventListener('click', (e) => {
         eventType: newEventType.value,
         pox: newEventPox.checked,
         ae: newEventAe.checked,
-        notes: newEventNotes
+        notes: newEventNotes,
+        eggs: newEventEggs.value
     }).then(() => {
         newEventForm.reset();
         newEventModal.style.display = "none";
