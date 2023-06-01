@@ -126,7 +126,33 @@ function drawCalendar(date) {
     document.getElementById(formattedDate).classList.add("current-date");
 
     // populate events from DB
-    
+    getActiveEvents()
+}
+
+function getActiveEvents() {
+
+    // get snapshot of batches + values in DB
+    onValue(batchesInDB, function(snapshot) {
+        let batchesArray = Object.values(snapshot.val())
+        
+        // get events from each batch in the array
+        for(let i = 0; i < batchesArray.length; i++){
+            const events = Object.values(batchesArray[i].events)
+                for (const event of events) {
+                    console.log(event)
+                    // make html for each event
+                    const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
+
+                    // inject html into event date div of calendar
+                    if(document.getElementById(event.eventDate)) {
+                        document.getElementById(event.eventDate).innerHTML += eventHtml
+                    }
+
+                    // add event listener for each event
+
+                }
+        }
+    })
 }
 
 // get batches from DB into an array and render active batches
@@ -139,8 +165,7 @@ function getActiveBatches() {
     onValue(batchesInDB, function(snapshot) {
         let batchesArray = Object.values(snapshot.val())
 
-        //insert active batches into new event modal dropdown
-        console.log(batchesArray)
+        // insert active batches into new event modal dropdown
         for(let i = 0; i < batchesArray.length; i ++) {
             let batchOption = document.createElement("option");
             batchOption.textContent = batchesArray[i].startingDate;
@@ -218,7 +243,7 @@ submitNewEvent.addEventListener('click', (e) => {
     }).then(() => {
         newEventForm.reset();
         newEventModal.style.display = "none";
-        getActiveEvents();
+        drawCalendar();
     })
 })
 
