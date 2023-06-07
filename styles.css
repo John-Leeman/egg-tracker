@@ -32,6 +32,15 @@ header h1 {
     }
 }
 
+.calendar div .event {
+    text-transform: capitalize;
+    height: max-content;
+}
+
+.event:hover {
+    cursor: pointer;
+}
+
 header img {
     height: 4em;
     padding: 1em;

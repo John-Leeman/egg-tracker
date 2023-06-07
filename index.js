@@ -68,6 +68,19 @@ const newEventAe = document.getElementById('ae');
 const newEventNotes = document.getElementById('newEventNotes')
 const newEventEggs = document.getElementById('newEventEggs')
 
+//Edit event modal elements
+const editEventModal = document.getElementById('editEventModal');
+const submitEditEvent = document.getElementById('submitEditEvent');
+const closeEditeditnt = document.getElementsByClassName("closeEditEvent")[0];
+const editEventDropdown = document.getElementById('editEventDropdown')
+const editEventForm = document.getElementById('editEventForm');
+const editEventDate = document.getElementById('editEventDate');
+const editEventType = document.getElementById('editEventType');
+const editEventPox = document.getElementById('editPox');
+const editEventAe = document.getElementById('editAe');
+const editEventNotes = document.getElementById('editEventNotes')
+const editEventEggs = document.getElementById('editEventEggs')
+
 // Get current date
 let currentDate = new Date();
 
@@ -138,19 +151,31 @@ function getActiveEvents() {
         // get events from each batch in the array
         for(let i = 0; i < batchesArray.length; i++){
             const events = Object.values(batchesArray[i].events)
-                for (const event of events) {
-                    console.log(event)
-                    // make html for each event
-                    const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
+            for (const event of events) {
+                
+                // make html for each event
+                const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
 
-                    // inject html into event date div of calendar
-                    if(document.getElementById(event.eventDate)) {
-                        document.getElementById(event.eventDate).innerHTML += eventHtml
-                    }
+                // inject html into event date div of calendar
+                const eventElement = document.getElementById(event.eventDate)
+                if(eventElement) {
+                    eventElement.innerHTML += eventHtml
 
-                    // add event listener for each event
-
+                    // add click event listener for each event
+                    eventElement.addEventListener('click', function(e) {
+                        //bring up the modal
+                        editEventModal.style.display = "block";
+                        //fill the form with values from event
+                        editEventDate.value = event.eventDate
+                        editEventBatch.value = batchesArray[i].startingDate
+                        editEventType.value = event.eventType
+                        editEventEggs.value = event.eggs
+                        editEventPox.checked = event.pox
+                        editEventAe.checked = event.ae
+                        editEventNotes.value = event.notes
+                    })
                 }
+            }
         }
     })
 }
@@ -238,7 +263,7 @@ submitNewEvent.addEventListener('click', (e) => {
         eventType: newEventType.value,
         pox: newEventPox.checked,
         ae: newEventAe.checked,
-        notes: newEventNotes,
+        notes: newEventNotes.value,
         eggs: newEventEggs.value
     }).then(() => {
         newEventForm.reset();

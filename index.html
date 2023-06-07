@@ -150,6 +150,50 @@
         </div>
     </div>
 
+    <div id="editEventModal" class="modal">
+        <div class="modal-content">
+            <div class="closeEditEvent">&times;</div>
+            <h1>Edit Event</h1>
+            <form id="editEventForm">
+                <label for="editEventDate">Event Date:</label>
+                <input type="date" id="editEventDate" name="editEventDate" pattern="\d{4}/\d{2}/\d{2}" required>
+                <br><br>
+
+                <label for="editEventBatch">Event Batch:</label>
+                <input type="date" id="editEventBatch" name="editEventBatch" pattern="\d{4}/\d{2}/\d{2}" required>
+                <br><br>
+
+                <label for="editEventType">Event Type:</label>
+                <select id="editEventType" name="editEventType">
+                    <option value="titer">Titer</option>
+                    <option value="inoculation">Inoculation</option>
+                    <option value="harvest">Harvest</option>
+                    <option value="hatch">Hatch</option>
+                    <option value="113.34">113.34</option>
+                    <option value="113.37">113.37</option>
+                    <option value="misc">Misc</option>
+                </select>
+                <br><br>
+
+                <label for="editEventEggs">Number of Eggs:</label>
+                <input type="number" id="editEventEggs" name="editEventEggs" min="0" required>
+                <br><br>
+
+                <input type="radio" id="editPox" name="editPox" value="editPox">
+                <label for="editPox">Pox</label>
+                <input type="radio" id="editAe" name="editAe" value="editAe">
+                <label for="editAe">AE</label>
+                <br><br>
+
+                <label for="editEventNotes">Notes:</label>
+                <input type="text" id="editEventNotes" name="editEventNotes">
+                <br><br>
+
+                <button type="submit" id="submitEditEvent">Submit</button>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2023 John Leeman All rights reserved.</p>
     </footer>
