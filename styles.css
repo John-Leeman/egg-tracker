@@ -181,7 +181,8 @@ footer {
 
 .closeNewBatch, 
 .closeEditBatch,
-.closeNewEvent {
+.closeNewEvent,
+.closeEditEvent {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -193,7 +194,9 @@ footer {
 .closeEditBatch:hover,
 .closeEditBatch:focus,
 .closeNewEvent:hover,
-.closeNewEvent:focus {
+.closeNewEvent:focus,
+.closeEditEvent:hover,
+.closeEditEvent:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
