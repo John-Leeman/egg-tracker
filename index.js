@@ -71,8 +71,8 @@ const newEventEggs = document.getElementById('newEventEggs')
 //Edit event modal elements
 const editEventModal = document.getElementById('editEventModal');
 const submitEditEvent = document.getElementById('submitEditEvent');
-const closeEditeditnt = document.getElementsByClassName("closeEditEvent")[0];
-const editEventDropdown = document.getElementById('editEventDropdown')
+const closeEditEvent = document.getElementsByClassName("closeEditEvent")[0];
+const editEventBatch = document.getElementById('editEventBatch')
 const editEventForm = document.getElementById('editEventForm');
 const editEventDate = document.getElementById('editEventDate');
 const editEventType = document.getElementById('editEventType');
@@ -85,7 +85,6 @@ const editEventEggs = document.getElementById('editEventEggs')
 let currentDate = new Date();
 
 function drawCalendar(date) {
-    const day = date.getDay();
     const month = date.getMonth();
     const year = date.getFullYear();
     const monthString = date.toLocaleDateString("en-US", {
@@ -96,6 +95,7 @@ function drawCalendar(date) {
     })
 
     // Clear the calendar
+    
     calendar.innerHTML = '';
 
     // Add day names
@@ -165,6 +165,15 @@ function getActiveEvents() {
                     eventElement.addEventListener('click', function(e) {
                         //bring up the modal
                         editEventModal.style.display = "block";
+                        //clear the dropdown
+                        editEventBatch.innerHTML = ''
+                        //generate the dropdown of active batches
+                        for(let i = 0; i < batchesArray.length; i ++) {
+                            let batchOption = document.createElement("option");
+                            batchOption.textContent = batchesArray[i].startingDate;
+                            batchOption.value = batchesArray[i].startingDate;
+                            editEventBatch.appendChild(batchOption);
+                        }
                         //fill the form with values from event
                         editEventDate.value = event.eventDate
                         editEventBatch.value = batchesArray[i].startingDate
@@ -272,7 +281,7 @@ submitNewEvent.addEventListener('click', (e) => {
     })
 })
 
-//update data in the database on editModal submit, clear the form and hide the modal
+//update data in the database on editBatch submit, clear the form and hide the modal
 submitEditBatch.addEventListener('click', (e) => {
     e.preventDefault();
     update(ref(database, "Batches/" + editStartingDate.value),{
@@ -287,6 +296,25 @@ submitEditBatch.addEventListener('click', (e) => {
         editBatchForm.reset();
         editBatchModal.style.display = "none";
         getActiveBatches();
+    })
+});
+
+//update DB on editEvent sumbit
+submitEditEvent.addEventListener('click', (e) => {
+    e.preventDefault();
+    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + editEventDate.value),{
+        eventDate: editEventDate.value,
+        eggs: editEventEggs.value,
+        eventType: editEventType.value,
+        pox: editEventPox.checked,
+        ae: editEventAe.checked,
+        notes: editEventNotes.value
+    }).then(() => {
+        //delete old event... how?
+
+        editEventForm.reset();
+        editEventModal.style.display = "none";
+        drawCalendar();
     })
 });
 
@@ -310,6 +338,10 @@ closeEditBatch.onclick = function () {
 
 closeNewEvent.onclick = function () {
     newEventModal.style.display = "none"
+}
+
+closeEditEvent.onclick = function () {
+    editEventModal.style.display = "none"
 }
 
 prevMonthBtn.addEventListener('click', () => {
