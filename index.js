@@ -1,8 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
         
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCyH88GFsWEXDTkb7cIS5kULAXL__jWfgQ",
     authDomain: "hygieia-egg-tracker.firebaseapp.com",
@@ -13,7 +12,7 @@ const firebaseConfig = {
     measurementId: "G-453L9854ET"
 };
 
-// Initialize Firebase
+// initialize firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const batchesInDB = ref(database, "Batches");
@@ -81,9 +80,10 @@ const editEventAe = document.getElementById('editAe');
 const editEventNotes = document.getElementById('editEventNotes')
 const editEventEggs = document.getElementById('editEventEggs')
 
-// Get current date
+// get current date
 let currentDate = new Date();
 
+// create calendar
 function drawCalendar(date) {
     const month = date.getMonth();
     const year = date.getFullYear();
@@ -94,11 +94,11 @@ function drawCalendar(date) {
         year: "numeric",
     })
 
-    // Clear the calendar
+    // clear the calendar
     
     calendar.innerHTML = '';
 
-    // Add day names
+    // add day names
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     days.forEach(day => {
         const dayName = document.createElement('div');
@@ -107,7 +107,7 @@ function drawCalendar(date) {
         calendar.appendChild(dayName);
     });
 
-    // Get the first day of the month
+    // get the first day of the month
     const firstDay = new Date(year, month, 1).getDay();
 
     // Get the number of days in the month
@@ -119,7 +119,7 @@ function drawCalendar(date) {
         calendar.appendChild(emptyDay);
     }
 
-    // Add days of the month
+    // add days of the month
     for (let i = 1; i <= daysInMonth; i++) {
         const day = document.createElement('div');
         day.textContent = i;
@@ -137,15 +137,14 @@ function drawCalendar(date) {
     // highlight current date
     let formattedDate = `${year}-${(1 + month).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     document.getElementById(formattedDate).classList.add("current-date");
-
-    // populate events from DB
-    getActiveEvents()
 }
 
 function getActiveEvents() {
 
     // get snapshot of batches + values in DB
     onValue(batchesInDB, function(snapshot) {
+        
+        // store them in an array
         let batchesArray = Object.values(snapshot.val())
         
         // get events from each batch in the array
@@ -277,7 +276,7 @@ submitNewEvent.addEventListener('click', (e) => {
     }).then(() => {
         newEventForm.reset();
         newEventModal.style.display = "none";
-        drawCalendar();
+        getActiveEvents();
     })
 })
 
@@ -310,11 +309,9 @@ submitEditEvent.addEventListener('click', (e) => {
         ae: editEventAe.checked,
         notes: editEventNotes.value
     }).then(() => {
-        //delete old event... how?
-
         editEventForm.reset();
         editEventModal.style.display = "none";
-        drawCalendar();
+        getActiveEvents()
     })
 });
 
@@ -356,3 +353,4 @@ nextMonthBtn.addEventListener('click', () => {
 
 drawCalendar(currentDate);
 getActiveBatches();
+getActiveEvents();
