@@ -36,7 +36,7 @@ header h1 {
     text-transform: capitalize;
     height: max-content;
     overflow: hidden;
-    width: 75%;
+    width: 100%;
     margin: auto;
 }
 
@@ -156,6 +156,13 @@ footer {
     width: 1.5em;
     border: none;
     border-radius: 40%;
+}
+
+.calendar .event-container {
+    border: none;
+    height: auto;
+    width: 100%;
+    background-color: inherit
 }
 
 .active-batches {
