@@ -36,7 +36,7 @@ header h1 {
     text-transform: capitalize;
     height: max-content;
     overflow: hidden;
-    width: 2.5em;
+    width: 75%;
     margin: auto;
 }
 
@@ -116,9 +116,16 @@ footer {
     border: .05em solid black;
     border-radius: 3%;
     background-color: white;
-    height: 5em;
+    height: 7em;
     justify-self: center;
     width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    
+}
+
+.two-columns {
+    grid-template-columns: 1fr 1fr;
 }
 
 .calendar .calendarDay {
@@ -136,6 +143,19 @@ footer {
 
 .calendar .current-date {
     background-color: #5DC439;
+}
+
+.calendar .day-number {
+    color: white;
+    text-align: center;
+    line-height: 135%;
+    text-shadow: .03em .03em .1em black;
+    background-color: #ccc;
+    margin: .2em;
+    height: 1.5em;
+    width: 1.5em;
+    border: none;
+    border-radius: 40%;
 }
 
 .active-batches {

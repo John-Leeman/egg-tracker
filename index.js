@@ -80,6 +80,15 @@ const editEventAe = document.getElementById('editAe');
 const editEventNotes = document.getElementById('editEventNotes')
 const editEventEggs = document.getElementById('editEventEggs')
 
+// uuid function
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 // get current date
 let currentDate = new Date();
 
@@ -122,7 +131,7 @@ function drawCalendar(date) {
     // add days of the month
     for (let i = 1; i <= daysInMonth; i++) {
         const day = document.createElement('div');
-        day.textContent = i;
+        day.innerHTML += `<div class="day-number">${i}</div>`;
         if (i < 10){
             day.id = `${yearString}-${monthString}-0${i}`
         } else {
@@ -143,15 +152,16 @@ function getActiveEvents() {
 
     // get snapshot of batches + values in DB
     onValue(batchesInDB, function(snapshot) {
-        
+
         // store them in an array
         let batchesArray = Object.values(snapshot.val())
         
         // get events from each batch in the array
         for(let i = 0; i < batchesArray.length; i++){
             const events = Object.values(batchesArray[i].events)
+
             for (const event of events) {
-                
+
                 // make html for each event
                 const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
 
@@ -266,7 +276,7 @@ submitNewBatch.addEventListener('click', (e) => {
 //submit new event to the DB
 submitNewEvent.addEventListener('click', (e) => {
     e.preventDefault();
-    update(ref(database, "Batches/" + newEventDropdown.value + "/events/" + newEventDate.value),{
+    update(ref(database, "Batches/" + newEventDropdown.value + "/events/" + generateUUID()),{
         eventDate: newEventDate.value,
         eventType: newEventType.value,
         pox: newEventPox.checked,
