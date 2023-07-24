@@ -131,7 +131,9 @@ function drawCalendar(date) {
     // add days of the month
     for (let i = 1; i <= daysInMonth; i++) {
         const day = document.createElement('div');
-        day.innerHTML += `<div class="day-number">${i}</div>`;
+        day.innerHTML += 
+            `<div class="day-number">${i}</div>
+            <div class="event-container"></div>`;
         if (i < 10){
             day.id = `${yearString}-${monthString}-0${i}`
         } else {
@@ -159,7 +161,7 @@ function getActiveEvents() {
         // get events from each batch in the array
         for(let i = 0; i < batchesArray.length; i++){
             const events = Object.values(batchesArray[i].events)
-
+            
             for (const event of events) {
 
                 // make html for each event
@@ -167,8 +169,10 @@ function getActiveEvents() {
 
                 // inject html into event date div of calendar
                 const eventElement = document.getElementById(event.eventDate)
+                
                 if(eventElement) {
-                    eventElement.innerHTML += eventHtml
+                    const eventContainer = eventElement.querySelector('.event-container')
+                    eventContainer.innerHTML += eventHtml
 
                     // add click event listener for each event
                     eventElement.addEventListener('click', function(e) {
