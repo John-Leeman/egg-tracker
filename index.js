@@ -79,6 +79,7 @@ const editEventPox = document.getElementById('editPox');
 const editEventAe = document.getElementById('editAe');
 const editEventNotes = document.getElementById('editEventNotes')
 const editEventEggs = document.getElementById('editEventEggs')
+const deleteEditEvent = document.getElementById('deleteEditEvent')
 
 // uuid function
 function generateUUID() {
@@ -280,7 +281,9 @@ submitNewBatch.addEventListener('click', (e) => {
 //submit new event to the DB
 submitNewEvent.addEventListener('click', (e) => {
     e.preventDefault();
-    update(ref(database, "Batches/" + newEventDropdown.value + "/events/" + generateUUID()),{
+    const newEventId = generateUUID()
+    update(ref(database, "Batches/" + newEventDropdown.value + "/events/" + newEventId),{
+        eventId: newEventId,
         eventDate: newEventDate.value,
         eventType: newEventType.value,
         pox: newEventPox.checked,
@@ -327,7 +330,19 @@ submitEditEvent.addEventListener('click', (e) => {
         editEventModal.style.display = "none";
         getActiveEvents()
     })
-});
+})
+
+//update DB on editEvent delete
+deleteEditEvent.addEventListener('click', (e) => {
+    e.preventDefault()
+    remove(
+        ref(database, "Batches/" + editEventBatch.value + "/events/" + editEventDate.value
+    )).then(() => {
+        editEventForm.reset();
+        editEventModal.style.display = "none";
+        getActiveEvents()
+    })
+})
 
 // Open modals when the button is clicked
 newBatchBtn.onclick = function () {
