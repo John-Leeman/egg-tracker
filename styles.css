@@ -9,7 +9,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 8em;
+    height: 6em;
 }
 
 header h1 {
@@ -34,10 +34,11 @@ header h1 {
 
 .calendar div .event {
     text-transform: capitalize;
-    height: max-content;
+    height: auto;
     overflow: hidden;
-    width: 100%;
+    width: 90%;
     margin: auto;
+    line-height: 120%;
 }
 
 .event:hover {
@@ -119,9 +120,6 @@ footer {
     height: 7em;
     justify-self: center;
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    
 }
 
 .two-columns {
@@ -130,15 +128,17 @@ footer {
 
 .calendar .calendarDay {
     background-color: #cccccc;
-    color: #5DC439;
+    color: white;
     font-size: 1.75em;
     line-height: 80%;
     height: fit-content; 
     padding: 0;
     font-family: 'Cute Font', cursive;
     text-shadow: .03em .03em .03em black;
-    border-radius: 2%;
-    width: 75%;
+    border: none;
+    border-radius: 10%;
+    width: fit-content;
+    padding: 0 .2em;
 }
 
 .calendar .current-date {
