@@ -23,6 +23,9 @@ const prevMonthBtn = document.getElementById('prevMonth');
 const nextMonthBtn = document.getElementById('nextMonth');
 const currentMonthYear = document.getElementById('currentMonthYear');
 
+// All modal elements
+const allModals = document.getElementsByClassName("modal");
+
 // active batch element
 const activeBatches = document.getElementById('activeBatches');
 
@@ -105,7 +108,6 @@ function drawCalendar(date) {
     })
 
     // clear the calendar
-    
     calendar.innerHTML = '';
 
     // add day names
@@ -296,7 +298,7 @@ submitNewEvent.addEventListener('click', (e) => {
     }).then(() => {
         newEventForm.reset();
         newEventModal.style.display = "none";
-        getActiveEvents();
+        render();
     })
 })
 
@@ -348,7 +350,7 @@ deleteEditEvent.addEventListener('click', (e) => {
     )).then(() => {
         editEventForm.reset();
         editEventModal.style.display = "none";
-        drawCalendar(currentDate);
+        render();
     })
 })
 
@@ -380,14 +382,25 @@ closeEditEvent.onclick = function () {
 
 prevMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
-    drawCalendar(currentDate);
+    render();
 });
 
 nextMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() + 1);
-    drawCalendar(currentDate);
+    render();
 });
 
-drawCalendar(currentDate);
-getActiveBatches();
-getActiveEvents();
+// When the user clicks anywhere outside of any modal, close it
+window.onclick = function (event) {
+    if (event.target != allModals) {
+        allModals.style.display = "none";
+    }
+};
+
+function render() {
+    drawCalendar(currentDate);
+    getActiveBatches();
+    getActiveEvents();
+    };
+
+render();
