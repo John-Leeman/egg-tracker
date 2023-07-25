@@ -196,6 +196,9 @@ function getActiveEvents() {
                         editEventPox.checked = event.pox
                         editEventAe.checked = event.ae
                         editEventNotes.value = event.notes
+
+                        //add event.id to local storage
+                        localStorage.setItem('selectedEventId', event.eventId) 
                     })
                 }
             }
@@ -335,12 +338,17 @@ submitEditEvent.addEventListener('click', (e) => {
 //update DB on editEvent delete
 deleteEditEvent.addEventListener('click', (e) => {
     e.preventDefault()
+
+    //access local storage to get the selected event id
+    const eventId = localStorage.getItem('selectedEventId')
+
+    //remove the event from the database
     remove(
-        ref(database, "Batches/" + editEventBatch.value + "/events/" + editEventDate.value
+        ref(database, "Batches/" + editEventBatch.value + "/events/" + eventId
     )).then(() => {
         editEventForm.reset();
         editEventModal.style.display = "none";
-        getActiveEvents()
+        drawCalendar(currentDate);
     })
 })
 
