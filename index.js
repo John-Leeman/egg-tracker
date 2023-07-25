@@ -163,45 +163,48 @@ function getActiveEvents() {
         
         // get events from each batch in the array
         for(let i = 0; i < batchesArray.length; i++){
-            const events = Object.values(batchesArray[i].events)
-            
-            for (const event of events) {
-
-                // make html for each event
-                const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
-
-                // inject html into event date div of calendar
-                const eventElement = document.getElementById(event.eventDate)
+            if (batchesArray[i].events) {
+                const events = Object.values(batchesArray[i].events)
                 
-                if(eventElement) {
-                    const eventContainer = eventElement.querySelector('.event-container')
-                    eventContainer.innerHTML += eventHtml
+                for (const event of events) {
 
-                    // add click event listener for each event
-                    eventElement.addEventListener('click', function(e) {
-                        //bring up the modal
-                        editEventModal.style.display = "block";
-                        //clear the dropdown
-                        editEventBatch.innerHTML = ''
-                        //generate the dropdown of active batches
-                        for(let i = 0; i < batchesArray.length; i ++) {
-                            let batchOption = document.createElement("option");
-                            batchOption.textContent = batchesArray[i].startingDate;
-                            batchOption.value = batchesArray[i].startingDate;
-                            editEventBatch.appendChild(batchOption);
-                        }
-                        //fill the form with values from event
-                        editEventDate.value = event.eventDate
-                        editEventBatch.value = batchesArray[i].startingDate
-                        editEventType.value = event.eventType
-                        editEventEggs.value = event.eggs
-                        editEventPox.checked = event.pox
-                        editEventAe.checked = event.ae
-                        editEventNotes.value = event.notes
+                    // make html for each event
+                    const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
 
-                        //add event.id to local storage
-                        localStorage.setItem('selectedEventId', event.eventId) 
-                    })
+                    // inject html into event date div of calendar
+                    const eventElement = document.getElementById(event.eventDate)
+                    
+                    if(eventElement) {
+                        const eventContainer = eventElement.querySelector('.event-container')
+                        eventContainer.innerHTML += eventHtml
+
+                        // add click event listener for each event
+                        eventElement.addEventListener('click', function(e) {
+                            //bring up the modal
+                            editEventModal.style.display = "block";
+                            //clear the dropdown
+                            editEventBatch.innerHTML = ''
+                            //generate the dropdown of active batches
+                            for(let i = 0; i < batchesArray.length; i ++) {
+                                let batchOption = document.createElement("option");
+                                batchOption.textContent = batchesArray[i].startingDate;
+                                batchOption.value = batchesArray[i].startingDate;
+                                editEventBatch.appendChild(batchOption);
+                            }
+                            //fill the form with values from event
+                            editEventDate.value = event.eventDate
+                            editEventBatch.value = batchesArray[i].startingDate
+                            editEventType.value = event.eventType
+                            editEventEggs.value = event.eggs
+                            editEventPox.checked = event.pox
+                            editEventAe.checked = event.ae
+                            editEventNotes.value = event.notes
+
+                            //add event.id to local storage
+                            localStorage.setItem('selectedEventId', event.eventId) 
+                        })
+                    }
+                        
                 }
             }
         }
@@ -279,7 +282,7 @@ submitNewBatch.addEventListener('click', (e) => {
     }).then(() => {
         newBatchForm.reset();
         newBatchModal.style.display = "none";
-        getActiveBatches();
+        render();
     })
 });
 
@@ -316,7 +319,7 @@ submitEditBatch.addEventListener('click', (e) => {
     }).then(() => {
         editBatchForm.reset();
         editBatchModal.style.display = "none";
-        getActiveBatches();
+        render();
     })
 });
 
@@ -333,7 +336,7 @@ submitEditEvent.addEventListener('click', (e) => {
     }).then(() => {
         editEventForm.reset();
         editEventModal.style.display = "none";
-        getActiveEvents()
+        render();
     })
 })
 
@@ -389,13 +392,6 @@ nextMonthBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() + 1);
     render();
 });
-
-// When the user clicks anywhere outside of any modal, close it
-window.onclick = function (event) {
-    if (event.target != allModals) {
-        allModals.style.display = "none";
-    }
-};
 
 function render() {
     drawCalendar(currentDate);
