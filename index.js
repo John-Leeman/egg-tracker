@@ -31,6 +31,7 @@ const activeBatches = document.getElementById('activeBatches');
 
 // Edit Batch modal elements
 const editBatchModal = document.getElementById('editBatchModal');
+const deleteEditBatch = document.getElementById('deleteEditBatch');
 const submitEditBatch = document.getElementById('submitEditBatch');
 const editBatchForm = document.getElementById('editBatchForm')
 const closeEditBatch = document.getElementsByClassName("closeEditBatch")[0];
@@ -353,6 +354,20 @@ deleteEditEvent.addEventListener('click', (e) => {
     )).then(() => {
         editEventForm.reset();
         editEventModal.style.display = "none";
+        render();
+    })
+})
+
+//update DB on editBatch delete
+deleteEditBatch.addEventListener('click', (e) => {
+    e.preventDefault()
+
+    //remove the batch from the database
+    remove(
+        ref(database, "Batches/" + editStartingDate.value
+    )).then(() => {
+        editBatchForm.reset();
+        editBatchModal.style.display = "none";
         render();
     })
 })
