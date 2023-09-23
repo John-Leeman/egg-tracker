@@ -1,9 +1,14 @@
+html, body {
+    height: 100%;
+    color: #333;
+    overscroll-behavior-y: none;
+}
+
 body {
     margin: 0;
     background-color: #F4F6F0;
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 16px;
-    color: #333;
     line-height: 1.5;
 }
 
@@ -290,7 +295,6 @@ footer p {
 }
 
 .month button:hover, .newButtons button:hover {
-    background-color: #E8E8E8; /* Slight background change on hover */
     transform: scale(1.05); /* Slight scale change on hover */
 }
 

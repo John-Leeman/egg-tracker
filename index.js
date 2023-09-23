@@ -94,6 +94,8 @@ function generateUUID() {
     });
 }
 
+let selectedEventId = ''
+
 // get current date
 let currentDate = new Date();
 
@@ -204,8 +206,8 @@ function getActiveEvents() {
                             editEventAe.checked = event.ae
                             editEventNotes.value = event.notes
 
-                            //add event.id to local storage
-                            localStorage.setItem('selectedEventId', event.eventId) 
+                            //add event.id to local variable
+                            selectedEventId = event.eventId
                         })
                     }
                         
@@ -330,7 +332,7 @@ submitEditBatch.addEventListener('click', (e) => {
 //update DB on editEvent sumbit
 submitEditEvent.addEventListener('click', (e) => {
     e.preventDefault();
-    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + editEventDate.value),{
+    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId),{
         eventDate: editEventDate.value,
         eggs: editEventEggs.value,
         eventType: editEventType.value,
@@ -347,13 +349,10 @@ submitEditEvent.addEventListener('click', (e) => {
 //update DB on editEvent delete
 deleteEditEvent.addEventListener('click', (e) => {
     e.preventDefault()
-
-    //access local storage to get the selected event id
-    const eventId = localStorage.getItem('selectedEventId')
-
+    
     //remove the event from the database
     remove(
-        ref(database, "Batches/" + editEventBatch.value + "/events/" + eventId
+        ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId
     )).then(() => {
         editEventForm.reset();
         editEventModal.style.display = "none";
