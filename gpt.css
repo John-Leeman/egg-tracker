@@ -286,12 +286,12 @@ footer p {
 
 /* Adjusting button styles to have a modern touch */
 .month button, .newButtons button {
-    transition: background-color 0.3s, transform 0.3s; /* Adding transitions */
+    transition: transform 0.3s; /* Adding transitions */
 }
 
 .month button:hover, .newButtons button:hover {
     background-color: #E8E8E8; /* Slight background change on hover */
-    transform: translateY(-2px); /* A subtle lift effect */
+    transform: scale(1.05); /* Slight scale change on hover */
 }
 
 /* Consider adding more padding to the modals for a better look on mobile */
@@ -301,3 +301,7 @@ footer p {
     margin: 10% auto; /* Centering modal and giving it a top margin */
 }
 
+.active-batch:hover {
+    transition: transform 0.3s;
+    transform: scale(1.05)
+}

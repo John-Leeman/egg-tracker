@@ -150,8 +150,11 @@ function drawCalendar(date) {
     currentMonthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
     // highlight current date
-    let formattedDate = `${year}-${(1 + month).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-    document.getElementById(formattedDate).classList.add("current-date");
+    let highlightDate = new Date()
+    if (highlightDate.getMonth() === month) {
+        let formattedDate = `${highlightDate.getFullYear()}-${(1 + highlightDate.getMonth()).toString().padStart(2, '0')}-${highlightDate.getDate().toString().padStart(2, '0')}`;
+        document.getElementById(formattedDate).classList.add("current-date");
+    }
 }
 
 function getActiveEvents() {
