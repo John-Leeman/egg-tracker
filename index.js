@@ -84,6 +84,7 @@ const editEventAe = document.getElementById('editAe');
 const editEventNotes = document.getElementById('editEventNotes')
 const editEventEggs = document.getElementById('editEventEggs')
 const deleteEditEvent = document.getElementById('deleteEditEvent')
+const editEventComplete = document.getElementById('completeEditEvent')
 
 // uuid function
 function generateUUID() {
@@ -175,7 +176,7 @@ function getActiveEvents() {
                 for (const event of events) {
 
                     // make html for each event
-                    const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
+                    const eventHtml = event.isActive ? `<div class="event ${event.eventType}">${event.eventType}</div>` : `<div class="event complete ${event.eventType}">${event.eventType}</div>`;
 
                     // inject html into event date div of calendar
                     const eventElement = document.getElementById(event.eventDate)
@@ -297,6 +298,7 @@ submitNewEvent.addEventListener('click', (e) => {
     e.preventDefault();
     const newEventId = generateUUID()
     update(ref(database, "Batches/" + newEventDropdown.value + "/events/" + newEventId),{
+        isActive: true,
         eventId: newEventId,
         eventDate: newEventDate.value,
         eventType: newEventType.value,
@@ -346,10 +348,30 @@ submitEditEvent.addEventListener('click', (e) => {
     })
 })
 
+//update DB on completeEvent submit
+
+editEventComplete.addEventListener('click', (e) => {
+    e.preventDefault()
+    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId),{
+        isActive: false,
+        eventDate: editEventDate.value,
+        eggs: editEventEggs.value,
+        eventType: editEventType.value,
+        pox: editEventPox.checked,
+        ae: editEventAe.checked,
+        notes: editEventNotes.value
+    }).then(() => {
+        editEventForm.reset();
+        editEventModal.style.display = "none";
+        render();
+    })
+})
+
+
 //update DB on editEvent delete
 deleteEditEvent.addEventListener('click', (e) => {
     e.preventDefault()
-    
+
     //remove the event from the database
     remove(
         ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId

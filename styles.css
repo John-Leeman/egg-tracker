@@ -1,7 +1,29 @@
+html, body {
+    height: 100%;
+    color: #333;
+    overscroll-behavior-y: none;
+}
+
 body {
     margin: 0;
     background-color: #F4F6F0;
     font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+main {
+    background-color: #333;
+}   
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #0056b3;
 }
 
 header {
@@ -10,6 +32,8 @@ header {
     justify-content: center;
     align-items: center;
     height: 6em;
+    background-color: #333; /* Added background color for contrast */
+    color: #FFF; /* General text color set to white for contrast */
 }
 
 header h1 {
@@ -18,13 +42,20 @@ header h1 {
     text-shadow: .03em .03em .03em black;
 }
 
+header img {
+    height: 4em;
+    padding: 1em;
+}
+
 @media screen and (max-width: 500px) {
     header {
         height: 6em;
     }
+
     div .month {
         padding-bottom: 0;
     }
+
     header h1 {
         font-size: 3.5em;
         text-align: center;
@@ -39,10 +70,17 @@ header h1 {
     width: 90%;
     margin: auto;
     line-height: 120%;
+    transition: all 0.3s; /* Added a transition for smoother effects */
+}
+
+.complete {
+    text-decoration: line-through;
+    opacity: 0.5;
 }
 
 .event:hover {
     cursor: pointer;
+    transform: scale(1.05); /* Added a slight scale effect for hover */
 }
 
 header img {
@@ -53,6 +91,9 @@ header img {
 footer {
     display: flex;
     justify-content: center;
+    padding: 10px 0; /* Added padding for better spacing */
+    background-color: #333; /* Added background color for contrast */
+    color: #FFF; /* General text color set to white for contrast */
 }
 
 .month {
@@ -87,7 +128,7 @@ footer {
     color: black;
     background-color: #fff;
     border: .1em solid black;
-    border-radius: 3%;
+    border-radius: 6%;
     cursor: pointer;
     padding: .3em .5em;
     margin: 0 .5em;
@@ -127,8 +168,8 @@ footer {
 }
 
 .calendar .calendarDay {
-    background-color: #cccccc;
-    color: white;
+    background-color: white;
+    color: #5DC439;
     font-size: 1.75em;
     line-height: 80%;
     height: fit-content; 
@@ -139,6 +180,10 @@ footer {
     border-radius: 10%;
     width: fit-content;
     padding: 0 .2em;
+}
+
+#currentMonthYear {
+    color:#5DC439;
 }
 
 .calendar .current-date {
@@ -241,4 +286,31 @@ footer p {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Adding the rounded box-shadow to create a modern card-like effect */
+.calendar div, .active-batch, .modal-content {
+    border-radius: 4px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjusting button styles to have a modern touch */
+.month button, .newButtons button {
+    transition: transform 0.3s; /* Adding transitions */
+}
+
+.month button:hover, .newButtons button:hover {
+    transform: scale(1.05); /* Slight scale change on hover */
+}
+
+/* Consider adding more padding to the modals for a better look on mobile */
+.modal-content {
+    padding: 20px;
+    max-width: 600px; /* Limit width for larger screens */
+    margin: 10% auto; /* Centering modal and giving it a top margin */
+}
+
+.active-batch:hover {
+    transition: transform 0.3s;
+    transform: scale(1.05)
 }
