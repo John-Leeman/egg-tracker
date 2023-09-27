@@ -125,7 +125,7 @@ footer {
 .newButtons button {
     font-size: 1.25em;
     font-weight: bold;
-    color: black;
+    color: #333;
     background-color: #fff;
     border: .1em solid black;
     border-radius: 6%;
@@ -217,7 +217,7 @@ footer {
 }
 
 .active-batch {
-    border: .1em solid black;
+    color: #333;
     border-radius: 3%;
     background-color: white;
     display: flex;
