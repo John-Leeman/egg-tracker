@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+import { eventColors } from "./event-colors.js";
         
 // firebase configuration
 const firebaseConfig = {
@@ -228,8 +229,11 @@ function getActiveBatches() {
     onValue(batchesInDB, function(snapshot) {
         let batchesArray = Object.values(snapshot.val())
 
+        // clear newEventDropdown
+        newEventDropdown.innerHTML = ''
+        
         // insert active batches into new event modal dropdown
-        for(let i = 0; i < batchesArray.length; i ++) {
+        for(let i = 0; i < batchesArray.length; i++) {
             let batchOption = document.createElement("option");
             batchOption.textContent = batchesArray[i].startingDate;
             batchOption.value = batchesArray[i].startingDate;
