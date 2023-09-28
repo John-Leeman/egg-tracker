@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+import { eventColors } from "./event-colors.js";
         
 // firebase configuration
 const firebaseConfig = {
@@ -84,6 +85,7 @@ const editEventAe = document.getElementById('editAe');
 const editEventNotes = document.getElementById('editEventNotes')
 const editEventEggs = document.getElementById('editEventEggs')
 const deleteEditEvent = document.getElementById('deleteEditEvent')
+const editEventComplete = document.getElementById('completeEditEvent')
 
 // uuid function
 function generateUUID() {
@@ -93,6 +95,8 @@ function generateUUID() {
         return v.toString(16);
     });
 }
+
+let selectedEventId = ''
 
 // get current date
 let currentDate = new Date();
@@ -150,8 +154,11 @@ function drawCalendar(date) {
     currentMonthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
     // highlight current date
-    let formattedDate = `${year}-${(1 + month).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-    document.getElementById(formattedDate).classList.add("current-date");
+    let highlightDate = new Date()
+    if (highlightDate.getMonth() === month) {
+        let formattedDate = `${highlightDate.getFullYear()}-${(1 + highlightDate.getMonth()).toString().padStart(2, '0')}-${highlightDate.getDate().toString().padStart(2, '0')}`;
+        document.getElementById(formattedDate).classList.add("current-date");
+    }
 }
 
 function getActiveEvents() {
@@ -170,7 +177,7 @@ function getActiveEvents() {
                 for (const event of events) {
 
                     // make html for each event
-                    const eventHtml = `<div class="event ${event.eventType}">${event.eventType}</div>`
+                    const eventHtml = event.isActive ? `<div class="event ${event.eventType}">${event.eventType}</div>` : `<div class="event complete ${event.eventType}">${event.eventType}</div>`;
 
                     // inject html into event date div of calendar
                     const eventElement = document.getElementById(event.eventDate)
@@ -201,8 +208,8 @@ function getActiveEvents() {
                             editEventAe.checked = event.ae
                             editEventNotes.value = event.notes
 
-                            //add event.id to local storage
-                            localStorage.setItem('selectedEventId', event.eventId) 
+                            //add event.id to local variable
+                            selectedEventId = event.eventId
                         })
                     }
                         
@@ -222,8 +229,11 @@ function getActiveBatches() {
     onValue(batchesInDB, function(snapshot) {
         let batchesArray = Object.values(snapshot.val())
 
+        // clear newEventDropdown
+        newEventDropdown.innerHTML = ''
+        
         // insert active batches into new event modal dropdown
-        for(let i = 0; i < batchesArray.length; i ++) {
+        for(let i = 0; i < batchesArray.length; i++) {
             let batchOption = document.createElement("option");
             batchOption.textContent = batchesArray[i].startingDate;
             batchOption.value = batchesArray[i].startingDate;
@@ -292,6 +302,7 @@ submitNewEvent.addEventListener('click', (e) => {
     e.preventDefault();
     const newEventId = generateUUID()
     update(ref(database, "Batches/" + newEventDropdown.value + "/events/" + newEventId),{
+        isActive: true,
         eventId: newEventId,
         eventDate: newEventDate.value,
         eventType: newEventType.value,
@@ -327,7 +338,7 @@ submitEditBatch.addEventListener('click', (e) => {
 //update DB on editEvent sumbit
 submitEditEvent.addEventListener('click', (e) => {
     e.preventDefault();
-    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + editEventDate.value),{
+    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId),{
         eventDate: editEventDate.value,
         eggs: editEventEggs.value,
         eventType: editEventType.value,
@@ -341,16 +352,33 @@ submitEditEvent.addEventListener('click', (e) => {
     })
 })
 
+//update DB on completeEvent submit
+
+editEventComplete.addEventListener('click', (e) => {
+    e.preventDefault()
+    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId),{
+        isActive: false,
+        eventDate: editEventDate.value,
+        eggs: editEventEggs.value,
+        eventType: editEventType.value,
+        pox: editEventPox.checked,
+        ae: editEventAe.checked,
+        notes: editEventNotes.value
+    }).then(() => {
+        editEventForm.reset();
+        editEventModal.style.display = "none";
+        render();
+    })
+})
+
+
 //update DB on editEvent delete
 deleteEditEvent.addEventListener('click', (e) => {
     e.preventDefault()
 
-    //access local storage to get the selected event id
-    const eventId = localStorage.getItem('selectedEventId')
-
     //remove the event from the database
     remove(
-        ref(database, "Batches/" + editEventBatch.value + "/events/" + eventId
+        ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId
     )).then(() => {
         editEventForm.reset();
         editEventModal.style.display = "none";
