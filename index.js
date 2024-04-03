@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
 import { eventColors } from "./event-colors.js";
         
 // firebase configuration
@@ -355,22 +355,41 @@ submitEditEvent.addEventListener('click', (e) => {
 //update DB on completeEvent submit
 
 editEventComplete.addEventListener('click', (e) => {
-    e.preventDefault()
-    update(ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId),{
-        isActive: false,
-        eventDate: editEventDate.value,
-        eggs: editEventEggs.value,
-        eventType: editEventType.value,
-        pox: editEventPox.checked,
-        ae: editEventAe.checked,
-        notes: editEventNotes.value
+    e.preventDefault();
+
+    // Correctly handling the asynchronous operation
+    const currentEggsRef = ref(database, "Batches/" + editEventBatch.value + "/currentEggs");
+    get(currentEggsRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const currentEggs = snapshot.val(); // Assuming 'currentEggs' is directly stored at this path
+            const newEggsValue = parseInt(currentEggs) - parseInt(editEventEggs.value);
+
+            // First update operation
+            return update(ref(database, "Batches/" + editEventBatch.value), { currentEggs: newEggsValue });
+        } else {
+            throw new Error('Current eggs not found.');
+        }
     }).then(() => {
+        // Ensure this operation is a part of the promise chain
+        return update(ref(database, "Batches/" + editEventBatch.value + "/events/" + selectedEventId), {
+            isActive: false,
+            eventDate: editEventDate.value,
+            eggs: editEventEggs.value,
+            eventType: editEventType.value,
+            pox: editEventPox.checked,
+            ae: editEventAe.checked,
+            notes: editEventNotes.value
+        });
+    }).then(() => {
+        // This code executes after both updates are successful
         editEventForm.reset();
         editEventModal.style.display = "none";
         render();
-    })
-})
-
+    }).catch((error) => {
+        // Error handling
+        console.error("Error updating data:", error);
+    });
+});
 
 //update DB on editEvent delete
 deleteEditEvent.addEventListener('click', (e) => {
